@@ -6,6 +6,7 @@ import {
 import { Injectable } from '@angular/core';
 import { catchError, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Image } from '../models/image';
 import { User } from '../models/user';
 
 import { SessionService } from './session.service';
@@ -17,7 +18,7 @@ export class UserService {
   private baseUrl = `${environment.apiUrl}/users`;
 
   private httpHeaders: HttpHeaders = new HttpHeaders({
-    Authorization: `Bearer ${this.sessionService.getToken()}`,
+    Authorization: this.sessionService.getToken(),
   });
 
   constructor(
@@ -26,58 +27,77 @@ export class UserService {
   ) {}
 
   register(user: User) {
-
     return this.http
       .post<User>(`${this.baseUrl}/register`, user)
       .pipe(catchError(this.handleError));
-
   }
 
-  getUser(id: number): Observable<User> {
-    //console.log(this.sessionService.getToken());
-    console.log(this.http);
-    return this.http.get<User>(`${this.baseUrl}/details/${id}`, {
+  getUserById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${id}`, {
       headers: this.httpHeaders,
     });
   }
   // temp
-  getUserProfile(profileUrl: string): Observable<User> {
+  getUserProfile(profileUrl: string): Observable<any> {
     //console.log(this.sessionService.getToken());
-    console.log(this.http);
-    return this.http.get<User>(`${this.baseUrl}/profile/${profileUrl}`, {
+    return this.http.get<any>(`${this.baseUrl}/profile/${profileUrl}`, {
       headers: this.httpHeaders,
     });
   }
 
-  updatePersonalInfo(user: User): Observable<Object> {
-    //Fix later
-    return this.http.put(`${this.baseUrl}/details/${user.id}`, user, {
+  updatePersonalInfo(id: string, user: User): Observable<Object> {
+    return this.http.put(`${this.baseUrl}/details/${id}`, user, {
       headers: this.httpHeaders,
     });
   }
 
-  // testConnectionToDatabawe(): Observable<Object>{
-  //   rreturn this.http.get<User>(`${this.baseUrl}/details/${id}`);
-  // }
+  updateSecurityEmail(id: string, data: any) {
+    return this.http.put(`${this.baseUrl}/security/email/${id}`, data, {
+      headers: this.httpHeaders,
+    });
+  }
 
+  updateSecurityPassword(id: string, data: any) {
+    return this.http.put(`${this.baseUrl}/security/password/${id}`, data, {
+      headers: this.httpHeaders,
+    });
+  }
 
-   
-  updateSecurityInfo(id:number, email: string, mobileNumber: string, password: string): Observable<Object> {
-    return this.http.put(this.baseUrl + `/details/${id}`, {email, mobileNumber, password} , {headers: this.httpHeaders});
+  updateSecurityInfo(id: string, user: any) {
+    console.log('fetching');
+
+    return this.http
+      .put(`${this.baseUrl}/security/${id}`, user, {
+        headers: this.httpHeaders,
+      })
+      .pipe(catchError(this.handleError));
   }
 
   // March 14 2pm add-ons
   get(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl + `/test`);
+    return this.http.get<User[]>(this.baseUrl + `/test`, {
+      headers: this.httpHeaders,
+    });
   }
 
   getOne(id: number): Observable<Object> {
-    return this.http.get<User>(`${this.baseUrl}/${id}` + `/test`);
+    return this.http.get<User>(`${this.baseUrl}/${id}` + `/test`, {
+      headers: this.httpHeaders,
+    });
   }
   // March 14 2pm add-ons
 
-
+  // get users for searching
+  getUsers(searchText: string): Observable<User[]> {
+    return this.http.get<User[]>(this.baseUrl + `/search/${searchText}`, {
+      headers: this.httpHeaders,
+    });
+  }
+  uploadProfilePicture(fd: FormData): Observable<Object>{
+    return this.http.put(this.baseUrl + `/profilePicture` , fd ,{headers: this.httpHeaders});
+  }
+  private handleError(error: HttpErrorResponse) {
+    return error.error;
+  }
+  // March 14 2pm add-ons
 }
-
-  
-
