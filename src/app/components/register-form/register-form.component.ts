@@ -71,18 +71,6 @@ export class RegisterFormComponent implements OnInit {
     }
   }
 
-  private noWhitespaceValidator(control: FormControl) {
-    const isWhitespace = (control.value || '').trim().length === 0;
-    const isValid = !isWhitespace;
-    return isValid ? null : { whitespace: true };
-  }
-
-  private mobileNumberValidator(control: FormControl) {
-    const regex = /^9\d{9}$/;
-    const isValid = regex.test(control.value);
-    return isValid ? null : { mobileNumber: true };
-  }
-
   private passwordNoWhiteSpaceValidator(control: FormControl) {
     const regex = /^\S*$/;
     const isValid = regex.test(control.value);
@@ -92,12 +80,6 @@ export class RegisterFormComponent implements OnInit {
   private birthdayValidator(control: FormControl) {
     const isValid = Date.parse(control.value) < Date.now();
     return isValid ? null : { birthday: true };
-  }
-
-  private nameValidator(control: FormControl) {
-    const regex = /^[a-zA-Z ]+$/;
-    const isValid = regex.test(control.value);
-    return isValid ? null : { name: true };
   }
 
   get email() {
