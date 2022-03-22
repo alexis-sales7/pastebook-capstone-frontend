@@ -43,7 +43,7 @@ export class AboutMeComponent implements OnInit {
         this.toggleIsFormVisible();
       },
       error=>{
-        //ignore the errors lol
+     
         this.ngOnInit();
       }); 
 
