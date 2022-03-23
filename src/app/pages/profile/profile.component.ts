@@ -81,15 +81,15 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     const url = localStorage.getItem('profileUrl');
-    if (this.router.url !== '/' + url) {
-      const friendUrl = this.router.url.replace('/', '');
-      const id = friendUrl.match(/\d+/g);
+    // if (this.router.url !== '/' + url) {
+    //   const friendUrl = this.router.url.replace('/', '');
+    //   const id = friendUrl.match(/\d+/g);
 
-      this.userService.getUserById(id[0]).subscribe((response: any) => {
-        this.friendName = response.firstName + ' ' + response.lastName;
-        this.friendId = response.id;
-      });
-    }
+    //   this.userService.getUserById(id[0]).subscribe((response: any) => {
+    //     this.friendName = response.firstName + ' ' + response.lastName;
+    //     this.friendId = response.id;
+    //   });
+    // }
 
     this.route.params.subscribe((params) => {
       this.selectedFile = null;
@@ -109,10 +109,7 @@ export class ProfileComponent implements OnInit {
             );
           }
         });
-      // userService.getOne(Number(this.userId)).subscribe((response: any) => {
-      //   this.user = response;
-      // });
-
+  
       // console.log(this.isOwner()); // this fires off upon loading the page (basically, put all the functions you want to be automatically called when you load the page)
       this.requestPending = false;
       this.requestFromTheUserPending = false;

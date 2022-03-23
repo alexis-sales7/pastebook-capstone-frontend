@@ -107,11 +107,13 @@ export class NavbarComponent implements OnInit {
   }
 
   getNotifications() {
+    this.notifications = null
+    this.newNotificationCount = 0;
     this.notificationService
       .getNotificationShort()
       .subscribe((response: any) => {
-        console.log('Reloading Navbar');
-        console.log(response);
+        //console.log('Reloading Navbar');
+        //console.log(response);
         this.notifications = response;
         for (const notification of this.notifications) {
           if (!notification.isRead) {
