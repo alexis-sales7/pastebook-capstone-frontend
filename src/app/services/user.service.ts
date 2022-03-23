@@ -101,7 +101,6 @@ export class UserService {
   private handleError(error: HttpErrorResponse) {
     return error.error;
   }
-  // March 14 2pm add-ons
 
   updateAboutMe(aboutMe: string, userId: string): Observable<Object> {
     return this.http.put(
